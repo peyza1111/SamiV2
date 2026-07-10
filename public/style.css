@@ -272,6 +272,7 @@ body {
 /* افزودن */
 .add-card { padding: 18px; }
 .section-title { font-size: 15px; margin: 0 0 14px; display: flex; align-items: center; gap: 8px; }
+.copy-all-sub { margin-inline-start: auto; flex: none; font-size: 12px; padding: 7px 12px; }
 .add-row { display: flex; gap: 10px; }
 .add-row input {
   flex: 1;

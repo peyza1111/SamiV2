@@ -1,5 +1,11 @@
 const $ = (id) => document.getElementById(id);
 let token = localStorage.getItem('adminToken') || '';
+let usersCache = [];
+
+// base64 امن برای متن یونیکد (ساب متنی)
+function b64(s) {
+  return btoa(unescape(encodeURIComponent(s)));
+}
 
 // خطاهای شبکه را به پیام فارسی تبدیل می‌کند
 function friendly(e) {
@@ -82,9 +88,11 @@ async function refresh() {
 }
 
 function renderUsers(users) {
+  usersCache = users;
   const box = $('users');
   box.innerHTML = '';
   $('emptyState').classList.toggle('hidden', users.length > 0);
+  $('copyAllSub').classList.toggle('hidden', users.length === 0);
 
   users.forEach((u) => {
     const node = $('userTpl').content.cloneNode(true);
@@ -93,8 +101,8 @@ function renderUsers(users) {
     node.querySelector('.user-uuid').textContent = u.uuid;
     node.querySelector('.user-link').textContent = u.link;
 
-    node.querySelector('.copy-link').onclick = () => copy(u.link, 'لینک کپی شد');
-    node.querySelector('.copy-sub').onclick = () => copy(u.sub, 'لینک ساب کپی شد');
+    node.querySelector('.copy-link').onclick = () => copy(u.link, 'لینک کانفیگ کپی شد');
+    node.querySelector('.copy-sub').onclick = () => copy(b64(u.link), 'ساب متنی کپی شد');
 
     const qrBox = node.querySelector('.qr');
     node.querySelector('.toggle-qr').onclick = () => {
@@ -158,6 +166,11 @@ $('newName').addEventListener('keydown', (e) => e.key === 'Enter' && addUser());
 $('copyDomain').addEventListener('click', () => {
   const d = $('domainVal').textContent;
   if (d && d !== '—') copy(d, 'دامنه کپی شد');
+});
+$('copyAllSub').addEventListener('click', () => {
+  if (!usersCache.length) return toast('کاربری نیست', 'err');
+  const text = b64(usersCache.map((u) => u.link).join('\n'));
+  copy(text, 'ساب متنی همه کپی شد');
 });
 
 if (token) showDash();
