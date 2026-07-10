@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="fa" dir="rtl" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,113 +9,120 @@
 </head>
 <body>
   <div class="bg"></div>
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
+  <div class="orb orb-b"></div>
+  <div class="orb orb-r"></div>
 
-  <!-- ============ ورود ============ -->
+  <!-- ورود -->
   <div class="view login-view" id="loginView">
-    <div class="glass login-box">
-      <div class="logo-badge">🛰️</div>
+    <div class="card login-box">
+      <div class="logo-badge">◆</div>
       <h1 class="login-title">myx</h1>
-      <p class="muted center">برای مدیریت سرور وارد شوید</p>
-
+      <p class="muted center">پنل مدیریت کانفیگ</p>
       <div class="input-group">
         <span class="ic">🔒</span>
-        <input id="password" type="password" placeholder="رمز عبور پنل" />
-        <button class="ic-btn" id="togglePass" type="button" title="نمایش رمز">👁</button>
+        <input id="password" type="password" placeholder="رمز عبور" />
+        <button class="icon-btn" id="togglePass" type="button">👁</button>
       </div>
-
       <button class="btn-primary full" id="loginBtn">ورود</button>
       <p class="err" id="loginErr"></p>
-      <p class="hint center">رمز در لاگ‌های Railway یا متغیر <code>ADMIN_PASSWORD</code></p>
     </div>
   </div>
 
-  <!-- ============ داشبورد ============ -->
+  <!-- داشبورد -->
   <div class="view dash-view hidden" id="dashView">
-    <header class="app-header glass">
+    <header class="card app-header">
       <div class="brand">
-        <span class="logo-badge sm">🛰️</span>
-        <div class="brand-txt">
-          <b>myx</b>
-          <small>VLESS · WebSocket · TLS</small>
-        </div>
+        <span class="logo-badge sm">◆</span>
+        <div class="brand-txt"><b>myx</b><small>VLESS · WS · TLS</small></div>
       </div>
-      <button class="btn-ghost" id="logoutBtn">خروج ⎋</button>
+      <div class="header-actions">
+        <button class="icon-btn" id="themeBtn" title="تغییر تم">🌙</button>
+        <button class="btn-ghost" id="logoutBtn">خروج</button>
+      </div>
     </header>
 
     <main class="dash-main">
-      <!-- وضعیت سرور -->
-      <section class="glass hero">
+      <section class="card hero">
         <div class="hero-status">
           <span class="pulse"></span>
-          <div>
-            <div class="muted sm-label">وضعیت سرور</div>
-            <div class="hero-title">فعال و آماده‌ی اتصال</div>
-          </div>
+          <div><div class="muted sm-label">وضعیت سرور</div><div class="hero-title">فعال و آماده</div></div>
         </div>
         <div class="hero-domain">
           <span class="muted sm-label">دامنه</span>
-          <div class="domain-row">
-            <code id="domainVal">—</code>
-            <button class="ic-btn" id="copyDomain" title="کپی دامنه">⧉</button>
-          </div>
+          <div class="domain-row"><code id="domainVal">—</code><button class="icon-btn" id="copyDomain">⧉</button></div>
         </div>
       </section>
 
-      <!-- آمار -->
       <section class="stats">
-        <div class="glass stat"><div class="stat-num" id="userCount">0</div><div class="stat-lbl">کاربر</div></div>
-        <div class="glass stat"><div class="stat-num">VLESS</div><div class="stat-lbl">پروتکل</div></div>
-        <div class="glass stat"><div class="stat-num">443</div><div class="stat-lbl">پورت</div></div>
-        <div class="glass stat"><div class="stat-num">WS·TLS</div><div class="stat-lbl">ترنسپورت</div></div>
+        <div class="card stat"><div class="stat-num" id="statUsers">0</div><div class="stat-lbl">کاربر</div></div>
+        <div class="card stat"><div class="stat-num" id="statActive">0</div><div class="stat-lbl">فعال</div></div>
+        <div class="card stat"><div class="stat-num" id="statUsage">0</div><div class="stat-lbl">مصرف کل</div></div>
+        <div class="card stat"><div class="stat-num">443</div><div class="stat-lbl">پورت</div></div>
       </section>
 
-      <!-- افزودن کاربر -->
-      <section class="glass add-card">
-        <h2 class="section-title">➕ افزودن کاربر</h2>
-        <div class="add-row">
-          <input id="newName" placeholder="نام کاربر (مثلا موبایل من)" />
+      <section class="card add-card">
+        <h2 class="section-title">➕ کاربر جدید</h2>
+        <div class="add-grid">
+          <input id="newName" placeholder="نام کاربر" />
+          <input id="newDays" type="number" min="0" placeholder="روز (۰=نامحدود)" />
+          <input id="newQuota" type="number" min="0" step="0.5" placeholder="حجم GB (۰=نامحدود)" />
           <button class="btn-primary" id="addBtn">افزودن</button>
         </div>
       </section>
 
-      <!-- کاربران -->
       <section class="users-section">
         <h2 class="section-title">👥 کاربران <span class="badge" id="userBadge">0</span>
           <button class="btn-soft copy-all-sub" id="copyAllSub">📋 ساب متنی همه</button>
         </h2>
         <div class="users-grid" id="users"></div>
-        <div class="empty-state hidden" id="emptyState">
-          <div class="empty-emoji">🗂️</div>
-          هنوز کاربری ساخته نشده — از بالا یک کاربر اضافه کنید.
-        </div>
+        <div class="empty-state hidden" id="emptyState"><div class="empty-emoji">🗂️</div>هنوز کاربری نیست.</div>
       </section>
     </main>
-
-    <footer class="app-footer">این پنل خودش پروکسی را روی Railway اجرا می‌کند · کانفیگ‌ها واقعی‌اند</footer>
+    <footer class="app-footer">myx · پروکسی زنده روی Railway</footer>
   </div>
 
   <div class="toast" id="toast"></div>
 
-  <!-- قالب کارت کاربر -->
   <template id="userTpl">
-    <article class="glass user-card">
+    <article class="card user-card">
       <div class="user-top">
         <div class="avatar"></div>
         <div class="user-meta">
-          <b class="user-name"></b>
+          <div class="name-row"><b class="user-name"></b><span class="status"></span></div>
           <small class="user-uuid"></small>
         </div>
-        <button class="del ic-btn" title="حذف">🗑</button>
+        <button class="del icon-btn" title="حذف">🗑</button>
       </div>
+
+      <div class="metric">
+        <div class="metric-head"><span class="muted">مصرف</span><span class="usage-txt"></span></div>
+        <div class="bar"><div class="bar-fill"></div></div>
+      </div>
+      <div class="chips">
+        <div class="chip expiry-chip">⏳ <span class="expiry-txt"></span></div>
+        <div class="chip quota-chip">📦 <span class="quota-txt"></span></div>
+      </div>
+
       <div class="link-box"><code class="user-link"></code></div>
       <div class="user-actions">
         <button class="copy-link btn-soft">📋 کانفیگ</button>
-        <button class="copy-sub btn-soft">🔗 ساب متنی</button>
+        <button class="copy-sub btn-soft">🔗 ساب</button>
         <button class="toggle-qr btn-soft">▦ QR</button>
+        <button class="toggle-edit btn-soft">✎ ویرایش</button>
       </div>
       <div class="qr"></div>
+
+      <div class="edit">
+        <div class="edit-grid">
+          <label>روز (۰=نامحدود)<input class="e-days" type="number" min="0" /></label>
+          <label>حجم GB (۰=نامحدود)<input class="e-quota" type="number" min="0" step="0.5" /></label>
+        </div>
+        <label class="switch"><input class="e-enabled" type="checkbox" /> کاربر فعال باشد</label>
+        <div class="edit-actions">
+          <button class="save-edit btn-primary">ذخیره</button>
+          <button class="reset-usage btn-soft">صفر کردن مصرف</button>
+        </div>
+      </div>
     </article>
   </template>
 
